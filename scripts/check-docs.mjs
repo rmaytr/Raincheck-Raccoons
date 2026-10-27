@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const files = ['README.md', 'THIRD_PARTY_NOTICES.md',
+const files = ['README.md', 'COPYRIGHT.md', 'THIRD_PARTY_NOTICES.md',
   ...readdirSync(path.join(root, 'docs')).filter(name => name.endsWith('.md')).map(name => `docs/${name}`)];
 let checked = 0;
 for (const file of files) {

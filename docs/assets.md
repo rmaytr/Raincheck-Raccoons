@@ -12,6 +12,6 @@
 | Lucide icons | Third-party package; ISC license retained in its dependency distribution |
 | Build/starter resources | Retained Sites/Vinext support and UI scaffolding; see third-party notices |
 
-The original project has no selected project-wide license. Original asset provenance is not a new reuse license. Existing third-party terms remain applicable. The screenshot files are included as static documentation; test reports/logs generated during new runs remain ignored.
+The owner reserves rights in original project assets and grants no reuse license; see [copyright and reuse](../COPYRIGHT.md). Existing third-party terms remain applicable. The screenshot files are included as static documentation; test reports/logs generated during new runs remain ignored.
 
 [Third-party notices](../THIRD_PARTY_NOTICES.md) · [Back to README](../README.md)

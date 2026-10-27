@@ -158,4 +158,4 @@ The main engineering work addressed concurrent updates, concealed information an
 
 [Architecture](docs/architecture.md) · [Development and deployment](docs/development.md) · [Testing and evidence](docs/testing.md) · [Case study](docs/case-study.md) · [Asset provenance](docs/assets.md) · [Source provenance](docs/source-provenance.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-**A project-wide license has not yet been selected.** Public visibility does not itself grant permission to reuse or redistribute the original project. Third-party components retain their own licenses, including the font and starter notices preserved in this repository. The owner should choose a license before describing the project as open source.
+**All rights reserved for original project material.** This is a public portfolio project, not an open-source release. No reuse license is granted for the original code, artwork, audio, branding, or documentation. See [copyright and reuse](COPYRIGHT.md) for scope and the GitHub/platform exceptions. Third-party components retain their own licenses and permissions.

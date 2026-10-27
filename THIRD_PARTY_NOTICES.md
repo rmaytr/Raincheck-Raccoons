@@ -1,8 +1,8 @@
 # Third-party notices and project license status
 
-No project-wide license was present in the source or the empty destination repository. No license is selected by this publication task. Public access to the source is not itself permission to reuse or redistribute original project material. The owner should make that decision explicitly.
+The owner has chosen not to grant a reuse license for original project material. This public portfolio repository is not an open-source release. See [copyright and reuse](COPYRIGHT.md) for the original-material notice and its scope.
 
-Third-party components keep their own licenses; a future project license cannot erase these terms.
+Third-party components keep their own licenses and permissions. The original-material notice does not replace or narrow these terms.
 
 - **Sites build integration:** retained MIT notice, copyright 2026 OpenAI, in [`build/sites-vite-plugin.LICENSE`](build/sites-vite-plugin.LICENSE).
 - **Vendored shadcn Tailwind resource:** retained MIT notice, copyright 2023 shadcn, in [`vendor/shadcn-tailwind-4.13.0.LICENSE.md`](vendor/shadcn-tailwind-4.13.0.LICENSE.md). UI scaffold files are retained as supplied by the starter.

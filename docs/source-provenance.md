@@ -8,4 +8,4 @@ Publication changes add portable browser tooling, a tracked development dependen
 
 High-confidence secret patterns were checked across proposed public files and 148 blobs in the original single-commit history. No matches were found. This is a scoped credential-pattern review, not proof against every possible secret format. No runtime environment files, database state, dependency directories, build output, archives or raw chat/PDF attachments are included.
 
-A project-wide license remains an owner decision. See [third-party notices](../THIRD_PARTY_NOTICES.md).
+The owner has chosen to reserve rights in original project material without granting a reuse license. See [copyright and reuse](../COPYRIGHT.md) and [third-party notices](../THIRD_PARTY_NOTICES.md).

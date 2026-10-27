@@ -80,5 +80,6 @@
     "type": "git",
     "url": "https://github.com/rmaytr/Raincheck-Raccoons.git"
   },
-  "homepage": "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site"
+  "homepage": "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site",
+  "license": "UNLICENSED"
 }
