@@ -130,7 +130,7 @@ On Linux, use `npx playwright install --with-deps chromium` if browser system li
 | 24 browser journey checks | Real UI create/join, refresh, disconnect/recovery, full match, finale and rematch |
 | 7 targeted browser checks | 320px layout, reduced motion, sound preference, transient startup failure and delayed response after leave |
 
-**October 26, 2026 publication verification:** typecheck, production build, local migrations, all 27 engine tests and all 83 integration checks passed locally. The documentation checker validated 38 internal links/images. [Environment and methodology](docs/testing.md#publication-verification--october-26-2026) distinguish this run from CI.
+**October 26, 2026 publication verification:** typecheck, production build, local migrations, all 27 engine tests and all 83 integration checks passed locally. The documentation checker validated 39 internal links/images. [Environment and methodology](docs/testing.md#publication-verification--october-26-2026) distinguish this run from CI.
 
 Historical **October 24, 2026** public verification used independent Edge sessions on one computer, including desktop and mobile viewports. All 31 browser checks passed; the full journey took 51 seconds and targeted suite 5.7 seconds. These are automation run durations, not user-game lengths or response-time metrics. [Selected JSON evidence](docs/evidence/multiplayer-2026-10-24.json) and [test methodology](docs/testing.md) distinguish injected failures, simulations and browser emulation from human playtesting. The CI badge reports the actual workflow state; historical results do not establish a current CI pass.
 

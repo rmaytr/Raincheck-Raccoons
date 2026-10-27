@@ -24,7 +24,7 @@ The README badge links to the actual workflow. A new workflow is pending/unverif
 
 ## Publication verification — October 26, 2026
 
-The curated publication checkout passed TypeScript, the production build, local migration initialization and an idempotent migration rerun, all 27 engine tests, and all 83 integration checks (49 API, 3 real-deadline lifecycle, 24 browser journey and 7 targeted browser). The documentation checker validated 38 internal links/images across eight files. The repaired lockfile also passed an npm CI dry run; the GitHub workflow performs the actual clean install.
+The curated publication checkout passed TypeScript, the production build, local migration initialization and an idempotent migration rerun, all 27 engine tests, and all 83 integration checks (49 API, 3 real-deadline lifecycle, 24 browser journey and 7 targeted browser). The documentation checker validated 39 internal links/images across eight files. The repaired lockfile also passed an npm CI dry run; the GitHub workflow performs the actual clean install.
 
 This local run used Windows, Node 25.2.0 and Playwright 1.62.1’s Chromium 151. The API suite took 22.6 seconds, lifecycle suite 55.8 seconds, browser journey 39.7 seconds and targeted browser suite 2.6 seconds. These durations describe this automation run only. Node 24 LTS is the documented clean-clone/CI runtime. The workflow badge and GitHub run record establish its separate status.
 
