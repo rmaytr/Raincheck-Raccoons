@@ -4,6 +4,7 @@
 |---|---|
 | City, buildings, raccoons, role/food icons | Original project SVG in `components/Art.tsx`, created through the AI-assisted workflow |
 | Cover | Original self-contained `public/cover.svg`; 1600×900 raster export in `public/cover.png` |
+| Architecture diagram | Original SVG documentation preview, with editable Mermaid in the README |
 | Screenshots | Real October 24, 2026 headless Edge game captures; synthetic QA nicknames, not external promotional mockups |
 | Sound | Original synthesized oscillator/gain sequences in `lib/audio.ts`; no downloaded music |
 | Nunito | Local font; SIL OFL text in `public/fonts/Nunito-OFL.txt` |

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="510" viewBox="0 0 1120 510" role="img" aria-labelledby="title desc">
+<title id="title">Raincheck Raccoons architecture</title><desc id="desc">React clients send HTTP actions and adaptive polls to a Cloudflare Worker. The Worker validates sessions and payloads, applies game rules, and persists version-checked room snapshots in D1. Player-specific JSON returns to each client.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#ffb66d"/></marker></defs>
+<rect width="1120" height="510" rx="20" fill="#24203b"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#fff6dc">
+<text x="40" y="48" font-size="23" font-weight="700">One authoritative room. A private view for every player.</text>
+<g stroke="#887ca6" stroke-width="1.5"><rect x="40" y="180" width="235" height="148" rx="14" fill="#35304c"/><rect x="385" y="90" width="330" height="334" rx="18" fill="#302b47"/><rect x="805" y="180" width="275" height="148" rx="14" fill="#35304c"/></g>
+<text x="62" y="215" font-size="21" font-weight="700">Phone or laptop</text><text x="62" y="247" font-size="17">React + TypeScript</text><text x="62" y="276" font-size="16" fill="#c9c1dd">UI, draft choices, recovery</text><text x="62" y="304" font-size="16" fill="#c9c1dd">No account required</text>
+<text x="410" y="125" font-size="21" font-weight="700">Cloudflare Worker</text>
+<g fill="#403954"><rect x="410" y="148" width="280" height="64" rx="10"/><rect x="410" y="230" width="280" height="64" rx="10"/><rect x="410" y="312" width="280" height="84" rx="10"/></g>
+<text x="427" y="176" font-size="17" font-weight="700">HTTP API</text><text x="427" y="198" font-size="15" fill="#c9c1dd">Zod + session / host checks</text>
+<text x="427" y="257" font-size="17" font-weight="700">Game engine</text><text x="427" y="280" font-size="15" fill="#c9c1dd">Rules, scores, bots, deadlines</text>
+<text x="427" y="341" font-size="17" font-weight="700">Room persistence</text><text x="427" y="366" font-size="15" fill="#c9c1dd">Revision-checked writes</text><text x="427" y="386" font-size="15" fill="#c9c1dd">Reload + retry on contention</text>
+<text x="828" y="217" font-size="21" font-weight="700">Cloudflare D1</text><text x="828" y="252" font-size="17">Room snapshots + quotas</text><text x="828" y="281" font-size="16" fill="#c9c1dd">Parameterized SQL</text><text x="828" y="307" font-size="16" fill="#c9c1dd">Local DB for development / CI</text>
+<g fill="none" stroke="#ffb66d" stroke-width="2" marker-end="url(#arrow)"><path d="M275 210H385"/><path d="M385 301H275"/><path d="M715 252H805" marker-start="url(#arrow)"/><path d="M550 212V230"/><path d="M550 294V312"/></g>
+<text x="287" y="168" font-size="14" fill="#ffcc95">POST actions</text><text x="287" y="189" font-size="14" fill="#ffcc95">GET polls</text><text x="286" y="329" font-size="14" fill="#ffcc95">Private JSON</text>
+<text x="40" y="464" font-size="16" fill="#c9c1dd">HTTP polling synchronizes simultaneous turns. Opponents’ unrevealed choices stay on the server.</text>
+</g></svg>
