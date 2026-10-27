@@ -1,0 +1,21 @@
+{
+  "base": "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site",
+  "checks": [
+    "320px welcome with maximum-length nickname: no horizontal overflow",
+    "Reduced-motion preference disables sustained decorative animation",
+    "Sound toggle exposes pressed state, persists across reload, and can be muted",
+    "320px lobby with maximum-length nickname: no horizontal overflow",
+    "Transient bootstrap failure preserves saved room and Retry restores the same seat",
+    "Delayed successful poll after Leave cannot resurrect departed room state",
+    "Targeted regressions produce no uncaught browser exceptions"
+  ],
+  "errors": [],
+  "consoleErrors": [
+    {
+      "page": "targeted",
+      "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    }
+  ],
+  "networkFailures": [],
+  "durationSeconds": 5.7
+}

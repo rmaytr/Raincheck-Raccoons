@@ -1,0 +1,44 @@
+{
+  "base": "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site",
+  "checks": [
+    "Welcome: rules dialog traps focus, closes with Escape, and restores focus",
+    "390px join screen: no horizontal overflow",
+    "Real create and invite join preserve names and chosen avatars in independent cookie contexts",
+    "390px lobby: no horizontal overflow",
+    "Browser refresh restores the existing seat and lobby",
+    "Planning on mobile: rules dialog traps focus, closes with Escape, and restores focus",
+    "390px planning board: no horizontal overflow",
+    "Raid 1: host can lock while guest sees readiness without private choice",
+    "Offline mode shows reconnect state, disables submission, and resumes the same seat",
+    "Raid 1: both browsers reveal one authoritative result",
+    "390px reveal: no horizontal overflow",
+    "Raid 2: host can lock while guest sees readiness without private choice",
+    "Raid 2: both browsers reveal one authoritative result",
+    "Raid 3: host can lock while guest sees readiness without private choice",
+    "Raid 3: both browsers reveal one authoritative result",
+    "Raid 4: host can lock while guest sees readiness without private choice",
+    "Raid 4: both browsers reveal one authoritative result",
+    "Raid 5: host can lock while guest sees readiness without private choice",
+    "Raid 5: both browsers reveal one authoritative result",
+    "Raid 6: host can lock while guest sees readiness without private choice",
+    "Raid 6: both browsers reveal one authoritative result",
+    "390px finale: no horizontal overflow",
+    "All six raids finish, recap is complete, and rematch retains crew with zero scores",
+    "No uncaught browser exceptions or unexpected console errors"
+  ],
+  "errors": [],
+  "consoleErrors": [
+    {
+      "page": "guest",
+      "message": "Failed to load resource: net::ERR_INTERNET_DISCONNECTED"
+    }
+  ],
+  "networkFailures": [
+    {
+      "page": "guest",
+      "url": "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site/api/rooms/[test-room]",
+      "error": "net::ERR_INTERNET_DISCONNECTED"
+    }
+  ],
+  "durationSeconds": 51
+}

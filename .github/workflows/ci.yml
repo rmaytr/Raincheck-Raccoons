@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck, engine, build and multiplayer
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+      CLOUDFLARE_CF_FETCH_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Reproducible install
+        run: npm run install:ci
+      - name: Documentation links
+        run: npm run check:docs
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Engine tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Initialize local database
+        run: npm run db:migrate
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: API, lifecycle and browser checks
+        run: npm run verify:local
+      - name: Save test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-evidence
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
