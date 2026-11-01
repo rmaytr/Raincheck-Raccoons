@@ -4,7 +4,7 @@ This repository is a curated publication copy of Raincheck Raccoons, originally 
 
 The GitHub destination was inspected before preparation: it was an empty public repository with no commits or project-wide license. No published history was rewritten. The publication copy retains the application and build layout, original assets and notices. It replaces internal research dumps and template examples with focused public documentation and selected historical screenshots/reports.
 
-Publication changes add portable browser tooling, a tracked development dependency, local migration/verification helpers and GitHub CI. Game rules, frontend gameplay, API, persistent model and existing hosting identity are unchanged. GitHub pushes do not deploy the live site.
+Publication changes add portable browser tooling, a tracked development dependency, local migration/verification helpers and GitHub CI. Game rules, frontend gameplay, API, persistent model and existing hosting identity are unchanged. GitHub pushes do not deploy the original Sites release. The subsequently connected Vercel project rebuilds its own deployment from GitHub.
 
 High-confidence secret patterns were checked across proposed public files and 148 blobs in the original single-commit history. No matches were found. This is a scoped credential-pattern review, not proof against every possible secret format. No runtime environment files, database state, dependency directories, build output, archives or raw chat/PDF attachments are included.
 

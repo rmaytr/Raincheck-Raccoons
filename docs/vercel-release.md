@@ -29,6 +29,6 @@ The original Sites checkout and `.openai/hosting.json` are preserved. Both pre-e
 
 Public browser verification used independent Chromium contexts on Windows, including 390px mobile and 320px narrow layouts. Run durations describe automation only, not player-game duration or latency guarantees. These checks establish automated behavior, not human enjoyment, physical-device coverage or sustained load capacity.
 
-[Dual-platform CI run](https://github.com/rmaytr/Raincheck-Raccoons/actions/runs/41348992180) builds both Next.js and Cloudflare, runs both unit suites and exercises the existing integration suites on each runtime without production credentials. Reports remain available through the workflow's evidence artifacts. `.vercelignore` excludes local databases, generated builds, credentials, caches and QA outputs from future CLI uploads; Git-based deployments use the curated committed source.
+[Dual-platform CI workflow](https://github.com/rmaytr/Raincheck-Raccoons/actions/workflows/ci.yml) builds both Next.js and Cloudflare, runs both unit suites and exercises the existing integration suites on each runtime without production credentials. Reports remain available through the workflow's evidence artifacts. `.vercelignore` excludes local databases, generated builds, credentials, caches and QA outputs from future CLI uploads; Git-based deployments use the curated committed source.
 
 [Vercel setup](vercel-deployment.md) · [Architecture](architecture.md) · [Testing](testing.md) · [Back to README](../README.md)
