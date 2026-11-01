@@ -4,6 +4,7 @@
 
 | Suite | Scope |
 |---|---|
+| `npm run test:proxy` | 16 authentication, tampering, cookie/origin, body-limit and gateway failure tests |
 | `npm test` | 27 engine tests, including 400 seeded scoring configurations |
 | `npm run test:api` | 49 HTTP checks with independent session cookies |
 | API with `EXTENDED_ONLY=1` | 3 checks with real timeout, bot and host-absence deadlines |
@@ -29,6 +30,10 @@ The curated publication checkout passed TypeScript, the production build, local 
 This local run used Windows, Node 25.2.0 and Playwright 1.62.1’s Chromium 151. The API suite took 22.6 seconds, lifecycle suite 55.8 seconds, browser journey 39.7 seconds and targeted browser suite 2.6 seconds. These durations describe this automation run only. Node 24 LTS is the documented clean-clone/CI runtime. The workflow badge and GitHub run record establish its separate status.
 
 The [clean Linux GitHub Actions run](https://github.com/rmaytr/Raincheck-Raccoons/actions/runs/40431607441) passed on publication commit `ffce6ba`: reproducible lockfile install, documentation checks, TypeScript, all engine tests, production build, fresh local D1 migrations, and all API/lifecycle/browser checks. This run used GitHub’s Ubuntu runner and the Node 24 line. An earlier run exposed missing optional WebAssembly lock entries; the corrected lockfile retains exact npm-registry integrity hashes. The workflow requires no production credentials.
+
+## Native Next.js verification
+
+`npm run verify:vercel` runs the same 49 API, 3 lifecycle and 31 browser checks against a production Next.js server on loopback 4173. Its backend is a built Cloudflare Worker on loopback 4174 with a fresh local D1 database and an ephemeral test key. It requires no production credentials. CI builds both platforms and runs both runtime paths. This verifies that a successful Next.js build also produces a functioning multiplayer application.
 
 ## Historical release evidence
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.13.0"
+    "node": "24.x"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -11,9 +11,9 @@
     "test:api": "node tests/api-integration.mjs",
     "test:browser": "node tests/browser-integration.mjs",
     "install:ci": "node scripts/install-ci.mjs",
-    "dev": "node scripts/run-framework.mjs dev",
-    "build": "node scripts/run-framework.mjs build",
-    "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
+    "dev": "next dev --webpack --port 5173",
+    "build": "next build --webpack",
+    "start": "next start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/migrate-local.mjs",
@@ -21,7 +21,12 @@
     "check:docs": "node scripts/check-docs.mjs",
     "build:workers": "node scripts/build-workers.mjs",
     "db:migrate:workers": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 migrations apply DB --remote --config dist/server/wrangler.workers.json",
-    "deploy:workers": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js deploy --config dist/server/wrangler.workers.json"
+    "deploy:workers": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js deploy --config dist/server/wrangler.workers.json",
+    "dev:cloudflare": "node scripts/run-framework.mjs dev",
+    "build:cloudflare": "node scripts/run-framework.mjs build",
+    "start:cloudflare": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
+    "test:proxy": "node --experimental-strip-types --test --test-isolation=none tests/proxy.test.ts",
+    "verify:vercel": "node scripts/verify-vercel.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -83,6 +88,6 @@
     "type": "git",
     "url": "https://github.com/rmaytr/Raincheck-Raccoons.git"
   },
-  "homepage": "https://raincheck-raccoons.pigeon-problems.workers.dev",
+  "homepage": "https://raincheck-raccoons.vercel.app",
   "license": "UNLICENSED"
 }

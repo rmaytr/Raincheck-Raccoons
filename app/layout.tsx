@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Raincheck Raccoons — Little paws. Big plans.",
   description: "A free multiplayer rooftop heist for 2–10 friends. Pick a roof, plan your mischief, and bring home the snacks. No login. Just a room code.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://raincheck-raccoons.smoky-harp-3438.chatgpt.site")),
   openGraph: {
     title: "Raincheck Raccoons",
     description: "Outsmart the rain. And your friends. A free multiplayer party game.",

@@ -4,7 +4,7 @@
 
 ![Raincoat-wearing raccoons in an original illustrated midnight city](public/cover.png)
 
-**[Play live →](https://raincheck-raccoons.pigeon-problems.workers.dev)** · [Original Sites deployment](https://raincheck-raccoons.smoky-harp-3438.chatgpt.site) · [Run locally](#run-locally) · [Architecture](docs/architecture.md) · [Verification](docs/testing.md)
+**[Play live →](https://raincheck-raccoons.vercel.app)** · [Original Sites deployment](https://raincheck-raccoons.smoky-harp-3438.chatgpt.site) · [Run locally](#run-locally) · [Architecture](docs/architecture.md) · [Verification](docs/testing.md)
 
 [![CI](https://github.com/rmaytr/Raincheck-Raccoons/actions/workflows/ci.yml/badge.svg)](https://github.com/rmaytr/Raincheck-Raccoons/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
@@ -50,9 +50,9 @@ The four roofs have different stashes and noise limits. A safe crew divides a fi
 | Layer | Technology actually used |
 |---|---|
 | Interface and contracts | React 19.2.6, TypeScript 5.9.3 |
-| Framework/build | Vinext 1.0.0-beta.5, Vite 8.0.13; Next.js-compatible routes |
+| Framework/build | Next.js 16.3.4 for Vercel; Vinext 1.0.0-beta.5 / Vite 8.0.13 for the Cloudflare backend |
 | Styling/art/audio | Custom CSS, Tailwind CSS 4.2.1, SVG, Web Audio API, Lucide icons |
-| Backend | Cloudflare Workers, Fetch API, HTTP/JSON |
+| Backend | Vercel Node.js route handlers, signed HTTP requests to Cloudflare Workers, Fetch API / JSON |
 | Persistence | Cloudflare D1, parameterized SQL, revision-checked room snapshots |
 | Schema/validation | Drizzle ORM/Kit for schema and migrations; Zod for runtime payload validation |
 | Testing/tooling | Node test runner, Playwright, Wrangler, npm lockfile, GitHub Actions |
@@ -64,13 +64,14 @@ The four roofs have different stashes and noise limits. A safe crew divides a fi
 
 ```mermaid
 flowchart LR
-  A[Phone or laptop - React client] -->|POST create, join, actions| B[Worker API - Zod and session checks]
-  A -->|GET room - adaptive polling| B
+  A[Phone or laptop - React client] -->|Same-origin actions and polling| V[Next.js on Vercel]
+  V -->|Signed server-to-server requests| B[Worker API - Zod and session checks]
   B --> C[Game engine - rules and deadlines]
   B --> D[Persistence - version-checked updates]
   C --> D
   D <--> E[(Cloudflare D1 - rooms and quotas)]
-  B -->|Player-specific JSON view| A
+  B -->|Private JSON and session cookie| V
+  V -->|Player-specific response| A
 ```
 
 </details>
@@ -81,7 +82,9 @@ The server owns legality, scores and phase changes. Clients poll after approxima
 app/                  Screens, CSS, metadata and four room API routes
 components/Art.tsx    Original city, mascots, roof and role illustrations
 lib/engine.ts         Rules, scoring, bots, deadlines and phase progression
-lib/server.ts         Session identity, validation, authorization and quotas
+lib/server.ts         Authoritative Cloudflare API, identity and quotas
+lib/server-vercel.ts  Same-origin Vercel gateway and session forwarding
+lib/proxy-auth.ts     Short-lived HMAC authentication between deployments
 lib/store.ts          D1 persistence and optimistic concurrency
 lib/types.ts          Shared public models and action contracts
 lib/audio.ts          Optional browser-synthesized sound
@@ -91,6 +94,10 @@ tests/                Engine, API and browser integration harnesses
 docs/                 Focused design, setup, evidence and attribution
 ```
 
+## Deploy to Vercel
+
+The repository now builds native Next.js output (`.next`) with `npm run build`; `vercel.json` selects the correct preset. The frontend and four same-origin API routes run on Vercel. The existing game engine and D1 database remain on Cloudflare behind a signed server connection. Production and preview need the private `RAINCHECK_PROXY_SECRET` and the server-only `RAINCHECK_BACKEND_URL`; neither is exposed to the browser. See [Vercel setup and architecture](docs/vercel-deployment.md).
+
 ## Run locally
 
 **Prerequisites:** Node.js **24 LTS** (see `.nvmrc`), npm, Git. No cloud account, production database or API key is required for local play. Keep Node within the project's supported runtime range.
@@ -99,9 +106,9 @@ docs/                 Focused design, setup, evidence and attribution
 git clone https://github.com/rmaytr/Raincheck-Raccoons.git
 cd Raincheck-Raccoons
 npm run install:ci
-npm run build
+npm run build:cloudflare
 npm run db:migrate
-npm run dev
+npm run dev:cloudflare
 ```
 
 Open **http://localhost:5173**. Create a room or choose solo practice. The migration command only targets local D1 and is safe to rerun; it tracks applied migrations. Build before migrating because local storage configuration derives from the generated Worker config. Development and production-style local preview share `.wrangler/state`.
@@ -109,7 +116,7 @@ Open **http://localhost:5173**. Create a room or choose solo practice. The migra
 For a production-style local preview:
 
 ```sh
-npm start -- --port 4173
+npm run start:cloudflare -- --port 4173
 ```
 
 No `.env` is needed. The optional [`.env.example`](.env.example) documents test overrides; standalone test scripts read exported environment variables rather than loading that file. `.openai/hosting.json` contains a public hosting identifier and logical bindings, **not credentials**. Do not publish environment secrets or local database state.
@@ -119,10 +126,13 @@ No `.env` is needed. The optional [`.env.example`](.env.example) documents test 
 ```sh
 npm run typecheck
 npm test
+npm run test:proxy
 npm run build
+npm run build:cloudflare
 npm run db:migrate
 npx playwright install chromium
 npm run verify:local
+npm run verify:vercel
 ```
 
 On Linux, use `npx playwright install --with-deps chromium` if browser system libraries are missing. The verification runner owns sequential temporary loopback previews on **4173**: API/lifecycle checks use the development Worker, and browser suites use the production build. It writes ignored `test-results/` artifacts and stops each server. Stop any existing server on 4173 first. Individual API/browser commands and Windows troubleshooting are documented in [development.md](docs/development.md).

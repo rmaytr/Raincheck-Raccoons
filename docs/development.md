@@ -8,12 +8,12 @@ Use Node 24 LTS and npm. `.nvmrc` records the CI runtime; the package minimum is
 npm run install:ci
 npm run typecheck
 npm test
-npm run build
+npm run build:cloudflare
 npm run db:migrate
-npm run dev
+npm run dev:cloudflare
 ```
 
-Development normally uses port 5173. Open the URL printed by the server. For production-style local execution use `npm start -- --port 4173` after building/migrating. Both use ignored local D1 storage in `.wrangler/state`.
+For zero-credential local play, use `dev:cloudflare`, normally on port 5173. Native Next.js development (`npm run dev`) requires the backend environment described in [Vercel deployment](vercel-deployment.md). Open the URL printed by the server. For production-style local execution use `npm run start:cloudflare -- --port 4173` after building/migrating. Both use ignored local D1 storage in `.wrangler/state`.
 
 `install:ci` invokes npm's JavaScript entrypoint and uses the committed lockfile, including development/optional packages. Ordinary `npm ci` also follows the lockfile, but the wrapper sets the starter's native dependency defaults consistently. Do not run two installers in the same checkout.
 
@@ -43,10 +43,13 @@ Local gameplay needs no `.env` or API key. `.env.example` documents optional, no
 ```sh
 npm run typecheck
 npm test
+npm run test:proxy
 npm run build
+npm run build:cloudflare
 npm run db:migrate
 npx playwright install chromium
 npm run verify:local
+npm run verify:vercel
 ```
 
 The full runner uses port 4173 sequentially for two local previews. API and real-deadline suites run against Vinext’s development Worker; browser suites run against the production build through Wrangler, without HMR. Both use local D1. It writes `test-results/api-preview.log`, `test-results/browser-preview.log` and browser reports/screenshots, then stops each server. This separation avoids a Wrangler development-proxy restart after the intentionally foreign-Origin security request and keeps browser verification on built assets. Linux hosts missing browser libraries can use `npx playwright install --with-deps chromium`.
@@ -63,7 +66,7 @@ PowerShell exports use `$env:BASE_URL='http://127.0.0.1:4173'`; POSIX shells use
 ## Troubleshooting
 
 - **Missing tables:** build, run `npm run db:migrate`, and verify that the server uses this checkout's `.wrangler/state`. Never solve local failures by pointing at production D1.
-- **Missing Worker config:** `npm run build` must precede migration/production-style preview.
+- **Missing Worker config:** `npm run build:cloudflare` must precede migration/Cloudflare preview. `npm run build` produces the independent Next.js `.next` output.
 - **Port 4173 occupied:** stop your own preview before `verify:local`; the runner refuses to reuse an unrelated server.
 - **Browser executable missing:** run `npx playwright install chromium`; install Linux system dependencies when needed.
 - **429 after repeated runs:** create/join quotas deliberately persist in local D1. Wait for their window instead of weakening production controls.
@@ -72,7 +75,7 @@ PowerShell exports use `$env:BASE_URL='http://127.0.0.1:4173'`; POSIX shells use
 
 ## Existing production hosting
 
-The original deployment is hosted through Sites on Cloudflare Workers and D1. The standalone Workers deployment is described below. GitHub hosts source and runs checks; this repository does **not** automatically deploy on push. CI has no production tokens.
+The original deployment is hosted through Sites on Cloudflare Workers and D1. The standalone Workers deployment is described below. GitHub hosts source and runs checks. Cloudflare deployments remain manual; the connected Vercel project can deploy GitHub pushes. CI has no production tokens. See [Vercel deployment](vercel-deployment.md) for its separate build and server configuration.
 
 `.openai/hosting.json` retains the existing public project ID and logical `DB` binding. An ID is configuration, not a repository-write token. Preserve it when updating the existing site. Fork owners should create their own hosting identity before deploying a separate instance.
 

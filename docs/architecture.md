@@ -1,6 +1,6 @@
 # Architecture and decisions
 
-Raincheck Raccoons is a server-authoritative simultaneous-turn game. React runs in the browser, a Vinext-built Worker handles HTTP, and Cloudflare D1 persists rooms. Node.js is development tooling, not the hosted request runtime.
+Raincheck Raccoons is a server-authoritative simultaneous-turn game. React runs in the browser. The default native Next.js build runs on Vercel and forwards the four same-origin API operations to the authoritative Cloudflare Worker; Cloudflare D1 persists rooms. The original standalone Cloudflare frontend remains supported. Node.js is development tooling, not the hosted request runtime.
 
 ## Boundaries
 
@@ -8,11 +8,19 @@ Raincheck Raccoons is a server-authoritative simultaneous-turn game. React runs 
 |---|---|
 | Display and uncommitted selections | `app/page.tsx` |
 | Legal actions, scores, bots and phases | `lib/engine.ts` |
-| Session identity and request validation | `lib/server.ts` |
+| Session identity and request validation | `lib/server.ts` on Cloudflare |
+| Vercel API boundary | `lib/server-vercel.ts` |
+| Signed transport authentication | `lib/proxy-auth.ts` |
 | Durable state and concurrency | `lib/store.ts` |
 | Public DTOs/action contracts | `lib/types.ts` |
 
 `components/Art.tsx` and `lib/audio.ts` provide presentation. `components/ui/`, connector support and build helpers are retained starter infrastructure; the delivered game does not depend on a connected external app or an LLM API at runtime.
+
+## Hosting boundary
+
+Next.js selects `lib/server-vercel.ts` through an explicit server module replacement; the Cloudflare build keeps `lib/server.ts`. The Vercel gateway validates browser origin and body limits, forwards only the game session cookie, and signs the method, full backend URL, bounded body digest, expiry and hashed client identity with HMAC-SHA256. The Worker verifies the signature before trusting that identity for rate limiting. Direct native Worker traffic retains its original behavior.
+
+The Vercel secret is server-only, shared with a Worker secret, and never compiled into browser assets. The 30-second signature lifetime limits replay; match/round identifiers and the existing cookie authorization remain authoritative. See [Vercel setup](vercel-deployment.md).
 
 ## State machine
 

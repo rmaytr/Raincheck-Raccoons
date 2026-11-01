@@ -1,4 +1,5 @@
 import { env } from "cloudflare:workers";
+import { verifyProxyRequest } from "./proxy-auth";
 import { z } from "zod";
 import {
   applyAction, createRoom, GameError, joinRoom, projectRoom, requirePlayer, tickRoom,
@@ -93,8 +94,17 @@ function respond(body: unknown, status = 200, cookie?: string) {
   if (status === 429) headers.set("Retry-After", "60");
   return new Response(JSON.stringify(body), { status, headers });
 }
-async function guarded(operation: () => Promise<Response>) {
-  try { return await operation(); }
+const proxyClients = new WeakMap<Request, string>();
+async function guarded(req: Request, operation: () => Promise<Response>) {
+  try {
+    try {
+      const client = await verifyProxyRequest(req, (env as unknown as { RAINCHECK_PROXY_SECRET?: string }).RAINCHECK_PROXY_SECRET);
+      if (client) proxyClients.set(req, client);
+    } catch {
+      throw new GameError("Open this game directly before sending a request.", 403, "PROXY_AUTH_REJECTED");
+    }
+    return await operation();
+  }
   catch (error) {
     if (error instanceof z.ZodError) {
       return respond({ error: "Check your nickname, avatar, and action, then try again.", code: "INVALID_INPUT" }, 400);
@@ -108,14 +118,14 @@ async function guarded(operation: () => Promise<Response>) {
 function context(): EngineContext { return { now: Date.now(), random: Math.random }; }
 async function ipKey(req: Request) {
   // The edge supplies CF-Connecting-IP; local development intentionally shares one bucket.
-  return digest(`raincheck-rate:${req.headers.get("cf-connecting-ip") || "local"}`);
+  return digest(`raincheck-rate:${proxyClients.get(req) || req.headers.get("cf-connecting-ip") || "local"}`);
 }
 function opportunisticCleanup(binding: D1Database, now: number) {
   // Returning this promise keeps work attached to the request lifecycle.
   return Math.random() < 0.015 ? cleanupExpired(binding, now) : Promise.resolve();
 }
 export function handleCreate(req: Request) {
-  return guarded(async () => {
+  return guarded(req, async () => {
     const input = createInput.parse(await readJson(req));
     const binding = db();
     const ctx = context();
@@ -133,7 +143,7 @@ export function handleCreate(req: Request) {
   });
 }
 export function handleJoin(req: Request, rawCode: string) {
-  return guarded(async () => {
+  return guarded(req, async () => {
     const code = validCode(rawCode);
     const input = playerInput.parse(await readJson(req));
     const binding = db();
@@ -150,7 +160,7 @@ export function handleJoin(req: Request, rawCode: string) {
   });
 }
 export function handleGet(req: Request, rawCode: string) {
-  return guarded(async () => {
+  return guarded(req, async () => {
     const code = validCode(rawCode);
     const token = sessionToken(req);
     if (!token) throw new GameError("Enter your nickname to join this room.", 401, "JOIN_REQUIRED");
@@ -171,7 +181,7 @@ export function handleGet(req: Request, rawCode: string) {
   });
 }
 export function handleAction(req: Request, rawCode: string) {
-  return guarded(async () => {
+  return guarded(req, async () => {
     const code = validCode(rawCode);
     const action: RoomAction = actionInput.parse(await readJson(req));
     const token = sessionToken(req);

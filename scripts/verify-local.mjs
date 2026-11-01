@@ -20,7 +20,7 @@ async function withPreview(name, args, verify) {
   const logPath = `test-results/${name}.log`;
   const log = createWriteStream(logPath);
   const preview = spawn(process.execPath, ['--import', './scripts/sites-env.mjs', ...args], {
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, RAINCHECK_RUNTIME: 'cloudflare' },
   });
   preview.stdout.pipe(log); preview.stderr.pipe(log);
   let previewError;

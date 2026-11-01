@@ -7,7 +7,7 @@ import './sites-env.mjs';
 const configPath = 'dist/server/wrangler.local.json';
 let config;
 try { config = JSON.parse(readFileSync('dist/server/wrangler.json', 'utf8')); }
-catch { throw new Error('Run npm run build before npm run db:migrate.'); }
+catch { throw new Error('Run npm run build:cloudflare before npm run db:migrate.'); }
 config.d1_databases = config.d1_databases.map(database => ({
   ...database, migrations_dir: '../../drizzle',
 }));
