@@ -72,12 +72,34 @@ PowerShell exports use `$env:BASE_URL='http://127.0.0.1:4173'`; POSIX shells use
 
 ## Existing production hosting
 
-The live game is hosted through Sites on Cloudflare Workers and D1. GitHub hosts source and runs checks; this repository does **not** automatically deploy on push. CI has no production tokens.
+The original deployment is hosted through Sites on Cloudflare Workers and D1. The standalone Workers deployment is described below. GitHub hosts source and runs checks; this repository does **not** automatically deploy on push. CI has no production tokens.
 
 `.openai/hosting.json` retains the existing public project ID and logical `DB` binding. An ID is configuration, not a repository-write token. Preserve it when updating the existing site. Fork owners should create their own hosting identity before deploying a separate instance.
 
 The owner's established Sites workflow validates source, pushes its deployment repository, packages the matching build, saves a version, applies hosted migrations and deploys that version. Keep short-lived repository credentials in memory, never in arguments, committed files or logs. Do not replace an existing hosting remote with this GitHub remote.
 
 This public checkout is intentionally separate from the original deployment checkout. No live hosting audience, database or deployment was changed for source publication.
+
+## Standalone Cloudflare Workers deployment
+
+The `workers.dev` release is hosted directly in the owner's Cloudflare account, separate from the original Sites deployment. Its public URL is https://raincheck-raccoons.pigeon-problems.workers.dev. `pigeon-problems` is the account's existing Workers subdomain; it does not mean the games share application code or storage.
+
+`deploy/cloudflare.json` records the Worker name, account ID, public URL and dedicated D1 database ID. These are public configuration identifiers, not credentials. For another account, create a new D1 database and change those identifiers and the URL before deployment. Never commit API tokens or Wrangler's OAuth configuration.
+
+After installing dependencies and authenticating with `npx wrangler login`:
+
+```sh
+npm run typecheck
+npm test
+npm run build:workers
+npm run db:migrate:workers
+npm run deploy:workers
+```
+
+`build:workers` sets the public metadata URL while building, then derives ignored `dist/server/wrangler.workers.json` beside the generated Worker. This preserves module and asset paths while replacing the placeholder D1 binding with the dedicated database. The regular local build/migration commands and `.openai/hosting.json` remain unchanged.
+
+**The two `:workers` migration/deployment commands target the configured Cloudflare account remotely.** Review `deploy/cloudflare.json` first. Migrations are tracked and safe to rerun. Deployment does not run automatically on GitHub pushes and requires an authenticated owner terminal. A Workers deployment is a full application, including the four API operations and D1 persistence; `dist/client` alone is not a functional multiplayer deployment or a Next.js/Vercel build.
+
+The standalone database starts with no game rooms. Existing Sites rooms, sessions and storage are not transferred. New invites use the current browser origin, and sharing metadata uses the standalone URL. The original Sites URL and its deployment checkout are preserved.
 
 [Back to README](../README.md)

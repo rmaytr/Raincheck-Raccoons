@@ -4,7 +4,7 @@
 
 ![Raincoat-wearing raccoons in an original illustrated midnight city](public/cover.png)
 
-**[Play live →](https://raincheck-raccoons.smoky-harp-3438.chatgpt.site)** · [Run locally](#run-locally) · [Architecture](docs/architecture.md) · [Verification](docs/testing.md)
+**[Play live →](https://raincheck-raccoons.pigeon-problems.workers.dev)** · [Original Sites deployment](https://raincheck-raccoons.smoky-harp-3438.chatgpt.site) · [Run locally](#run-locally) · [Architecture](docs/architecture.md) · [Verification](docs/testing.md)
 
 [![CI](https://github.com/rmaytr/Raincheck-Raccoons/actions/workflows/ci.yml/badge.svg)](https://github.com/rmaytr/Raincheck-Raccoons/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
@@ -126,6 +126,8 @@ npm run verify:local
 ```
 
 On Linux, use `npx playwright install --with-deps chromium` if browser system libraries are missing. The verification runner owns sequential temporary loopback previews on **4173**: API/lifecycle checks use the development Worker, and browser suites use the production build. It writes ignored `test-results/` artifacts and stops each server. Stop any existing server on 4173 first. Individual API/browser commands and Windows troubleshooting are documented in [development.md](docs/development.md).
+
+The standalone Cloudflare deployment uses a separate D1 database. See [deployment instructions](docs/development.md#standalone-cloudflare-workers-deployment) to update the `workers.dev` release.
 
 ## Verification and engineering results
 

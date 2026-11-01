@@ -44,6 +44,10 @@ These historical runs used headless Edge and independent browser contexts on one
 
 Local initial-release evidence also recorded 49 API and 3 extended checks, including concurrent ten-client resolution. These are automated clients, not ten physical devices or ten people. Balance review used 18,000 initial random-policy simulated matches and 5,280 targeted composition cases; those counts describe analysis, not production traffic.
 
+## Standalone Cloudflare release
+
+On November 1, 2026, the dedicated `workers.dev` deployment passed all 49 API, 3 lifecycle and 31 browser checks against its public origin. See [standalone release evidence](cloudflare-release.md) for the exact Worker version, environment, durations and asset verification.
+
 ## Limits
 
 No user-growth, retention, revenue, coverage-percentage, competition-win or sustained-load claim is supported. Phone viewport emulation does not establish physical-device/network coverage. There has been no full Safari/Firefox matrix, formal screen-reader audit, complete WCAG assessment, or field Core Web Vitals study. Human group playtesting remains necessary to assess enjoyment and onboarding. Historical results and new CI results should be labeled separately.
