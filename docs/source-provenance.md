@@ -10,4 +10,6 @@ High-confidence secret patterns were checked across proposed public files and 14
 
 The owner has chosen to reserve rights in original project material without granting a reuse license. See [copyright and reuse](../COPYRIGHT.md) and [third-party notices](../THIRD_PARTY_NOTICES.md).
 
+On November 1, 2026, native Next.js/Vercel hosting was added with a signed server gateway to the existing authoritative Worker/D1 backend. The game UI, artwork, audio, rules and storage algorithms were preserved. See [Vercel release verification](vercel-release.md).
+
 On November 1, 2026, a separate standalone Cloudflare Workers deployment was added using `deploy/cloudflare.json` and a dedicated D1 database. The existing Sites project identity, deployment checkout and database were preserved. A build-time public URL setting gives each deployment its own sharing metadata. See [deployment instructions](development.md#standalone-cloudflare-workers-deployment).

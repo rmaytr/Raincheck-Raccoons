@@ -33,6 +33,8 @@ The [clean Linux GitHub Actions run](https://github.com/rmaytr/Raincheck-Raccoon
 
 ## Native Next.js verification
 
+The live Vercel release also passed all 83 integration checks on November 1, 2026. See [Vercel release evidence](vercel-release.md) for the deployed version, unchanged-file comparison and observed test durations.
+
 `npm run verify:vercel` runs the same 49 API, 3 lifecycle and 31 browser checks against a production Next.js server on loopback 4173. Its backend is a built Cloudflare Worker on loopback 4174 with a fresh local D1 database and an ephemeral test key. It requires no production credentials. CI builds both platforms and runs both runtime paths. This verifies that a successful Next.js build also produces a functioning multiplayer application.
 
 ## Historical release evidence
